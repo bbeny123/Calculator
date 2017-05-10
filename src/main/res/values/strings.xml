@@ -19,9 +19,26 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="equals">=</string>
-    <string name="dot">,</string>
+    <string name="dot">.</string>
     <string name="c">C</string>
     <string name="bksp">Bksp</string>
     <string name="sign">±</string>
-
+    <string-array name="digits">
+        <item>@string/zero</item>
+        <item>@string/one</item>
+        <item>@string/two</item>
+        <item>@string/three</item>
+        <item>@string/four</item>
+        <item>@string/five</item>
+        <item>@string/six</item>
+        <item>@string/seven</item>
+        <item>@string/eight</item>
+        <item>@string/nine</item>
+    </string-array>
+    <string-array name="signs">
+        <item>@string/plus</item>
+        <item>@string/minus</item>
+        <item>@string/division</item>
+        <item>@string/multiplication</item>
+    </string-array>
 </resources>
