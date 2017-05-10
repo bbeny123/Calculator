@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class SimpleActivity extends Activity implements View.OnClickListener {
+public class AdvancedActivity extends Activity implements View.OnClickListener {
 
     private TextView result;
     private Button zero;
@@ -46,7 +46,7 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_simple);
+        setContentView(R.layout.activity_advanced);
         result = (TextView) findViewById(R.id.result);
         zero = (Button) findViewById(R.id.zero);
         zero.setOnClickListener(this);

@@ -23,6 +23,16 @@
     <string name="c">C</string>
     <string name="bksp">Bksp</string>
     <string name="sign">±</string>
+    <string name="sin">sin</string>
+    <string name="cos">cos</string>
+    <string name="tan">tan</string>
+    <string name="ln">ln</string>
+    <string name="sqrt">sqrt</string>
+    <string name="squared">x^2</string>
+    <string name="power">x^y</string>
+    <string name="log">log</string>
+    <string name="version">v1.0.0</string>
+    <string name="copyright">© Beny 2017</string>
     <string-array name="digits">
         <item>@string/zero</item>
         <item>@string/one</item>
@@ -41,4 +51,6 @@
         <item>@string/division</item>
         <item>@string/multiplication</item>
     </string-array>
+    <string name="title_activity_advanced">AdvancedActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

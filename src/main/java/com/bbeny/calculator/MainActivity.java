@@ -30,8 +30,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             }
-            /*
-            case R.id.advancedButtonButton: {
+            case R.id.advancedButton: {
                 Intent intent = new Intent(this, AdvancedActivity.class);
                 startActivity(intent);
                 break;
@@ -41,7 +40,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             }
-            */
             case R.id.exitButton: {
                 finish();
                 break;
