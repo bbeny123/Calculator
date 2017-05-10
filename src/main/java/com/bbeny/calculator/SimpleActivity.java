@@ -8,37 +8,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class SimpleActivity extends Activity implements View.OnClickListener {
 
-    TextView result;
-    Button zero;
-    Button one;
-    Button two;
-    Button three;
-    Button four;
-    Button five;
-    Button six;
-    Button seven;
-    Button eight;
-    Button nine;
-    Button bksp;
-    Button c;
-    Button sign;
-    Button plus;
-    Button minus;
-    Button multiplication;
-    Button division;
-    Button equal;
-    Button dot;
-    String result1;
-    String result2;
-    String operation;
-    boolean signActive;
-    boolean equalState;
-    boolean errorState;
+    private TextView result;
+    private Button zero;
+    private Button one;
+    private Button two;
+    private Button three;
+    private Button four;
+    private Button five;
+    private Button six;
+    private Button seven;
+    private Button eight;
+    private Button nine;
+    private Button bksp;
+    private Button c;
+    private Button sign;
+    private Button plus;
+    private Button minus;
+    private Button multiplication;
+    private Button division;
+    private Button equal;
+    private Button dot;
+    private String result1;
+    private String result2;
+    private String operation;
+    private boolean signActive;
+    private boolean equalState;
+    private boolean errorState;
+    private String zeroChar;
+    private String plusChar;
+    private String minusChar;
+    private String multiplicationChar;
+    private String divisionChar;
+    private String equalsChar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,12 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         equal.setOnClickListener(this);
         dot = (Button) findViewById(R.id.dot);
         dot.setOnClickListener(this);
+        zeroChar = getString(R.string.zero);
+        plusChar = getString(R.string.plus);
+        minusChar = getString(R.string.minus);
+        multiplicationChar = getString(R.string.multiplication);
+        divisionChar = getString(R.string.division);
+        equalsChar = getString(R.string.equals);
         init();
     }
 
@@ -101,7 +110,7 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.zero: {
-                addDigit(getString(R.string.zero));
+                addDigit(zeroChar);
                 break;
             }
             case R.id.one: {
@@ -145,19 +154,19 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
                 break;
             }
             case R.id.plus: {
-                addSign(getString(R.string.plus));
+                addSign(plusChar);
                 break;
             }
             case R.id.minus: {
-                addSign(getString(R.string.minus));
+                addSign(minusChar);
                 break;
             }
             case R.id.multiplication: {
-                addSign(getString(R.string.multiplication));
+                addSign(multiplicationChar);
                 break;
             }
             case R.id.division: {
-                addSign(getString(R.string.division));
+                addSign(divisionChar);
                 break;
             }
             case R.id.equal: {
@@ -179,42 +188,7 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void backspace() {
-        String currentResult = getText();
-        String firstDigit = currentResult.substring(0, 1);
-        int length = currentResult.length();
-        if (errorState) {
-            init();
-        } else if(length == 1 || resultEmptyMinus()) {
-            setText("0");
-        } else if (length == 2 && firstDigit.equals(getString(R.string.minus))) {
-            setText("-0");
-        }
-        else {
-            setText(currentResult.substring(0, currentResult.length() - 1));
-        }
-        if(equalState) {
-            result1 = getText();
-        }
-    }
-
-    public void changeSign() {
-        if(equalState || errorState) {
-            init();
-        } else if (signActive) {
-            setText(getString(R.string.zero));
-            signActive = false;
-        }
-        String currentResult = getText();
-        String firstDigit = currentResult.substring(0, 1);
-        if(firstDigit.equals(getString(R.string.minus))) {
-            currentResult = currentResult.substring(1);
-        } else {
-            currentResult = getString(R.string.minus) + currentResult;
-        }
-        setText(currentResult);
-    }
-    public void addDigit(String digit) {
+    private void addDigit(String digit) {
         if(signActive) {
             clearText();
             signActive = false;
@@ -224,20 +198,20 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         }
         if(resultEmpty()) {
             setText(digit);
-        } else if (resultEmptyMinus()) {
+        } else if (resultMinusZero()) {
             setText(getText().substring(0, 1) + digit);
         } else {
             addText(digit);
         }
     }
 
-    public void addDot() {
+    private void addDot() {
         String currentResult = getText();
         String dot = getString(R.string.dot);
         if (signActive) {
             clearText();
             signActive = false;
-            setText(getString(R.string.zero) + dot);
+            addText(dot);
         }
         else if (equalState || errorState) {
             init();
@@ -248,7 +222,7 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    public void addSign(String sign) {
+    private void addSign(String sign) {
         if(errorState) {
             init();
         }
@@ -269,24 +243,59 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         result1 = count(result1, result2);
         setText(result1);
         equalState = true;
-        activeSign(getString(R.string.equals));
+        activeSign(equalsChar);
+    }
+
+    private void changeSign() {
+        if(equalState || errorState) {
+            init();
+        } else if (signActive) {
+            setText(zeroChar);
+            signActive = false;
+        }
+        String currentResult = getText();
+        String firstDigit = currentResult.substring(0, 1);
+        if(firstDigit.equals(minusChar)) {
+            currentResult = currentResult.substring(1);
+        } else {
+            currentResult = minusChar + currentResult;
+        }
+        setText(currentResult);
+    }
+
+    private void backspace() {
+        String currentResult = getText();
+        String firstDigit = currentResult.substring(0, 1);
+        int length = currentResult.length();
+        if (errorState) {
+            init();
+        } else if(length == 1 || resultMinusZero()) {
+            setText("0");
+        } else if (length == 2 && firstDigit.equals(minusChar)) {
+            setText("-0");
+        } else {
+            setText(currentResult.substring(0, currentResult.length() - 1));
+        }
+        if(equalState) {
+            result1 = getText();
+        }
     }
 
     private void activeSign(String sign) {
         deactivateSigns();
-        if(sign.equals(getString(R.string.plus))) {
+        if(sign.equals(plusChar)) {
             plus.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
         }
-        else if(sign.equals(getString(R.string.minus))){
+        else if(sign.equals(minusChar)){
             minus.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
         }
-        else if(sign.equals(getString(R.string.multiplication))){
+        else if(sign.equals(multiplicationChar)){
             multiplication.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
         }
-        else if(sign.equals(getString(R.string.division))){
+        else if(sign.equals(divisionChar)){
             division.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
         }
-        else if(sign.equals(getString(R.string.equals))){
+        else if(sign.equals(equalsChar)){
             equal.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY);
         }
     }
@@ -302,13 +311,13 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
     private String count(String left, String right) {
         float x = Float.parseFloat(left);
         float y = Float.parseFloat(right);
-        if (operation.equals(getString(R.string.plus))) {
+        if (operation.equals(plusChar)) {
             x += y;
-        } else if (operation.equals(getString(R.string.minus))) {
+        } else if (operation.equals(minusChar)) {
             x -= y;
-        } else if (operation.equals(getString(R.string.multiplication))) {
+        } else if (operation.equals(multiplicationChar)) {
             x *= y;
-        } else if (operation.equals(getString(R.string.division))) {
+        } else if (operation.equals(divisionChar)) {
             if (y == 0) {
                 errorState = true;
                 return("Error");
@@ -325,33 +334,28 @@ public class SimpleActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    public String getText() {
+    private String getText() {
         return result.getText().toString();
     }
 
-    public void setText(String text) {
+    private void setText(String text) {
         result.setText(text);
     }
 
     private void clearText() {
-        setText("");
+        setText("0");
     }
 
-    public void addText(String text) {
+    private void addText(String text) {
         setText(getText() + text);
     }
 
-    public boolean resultEmpty() {
-        return getText().equals(getString(R.string.zero));
+    private boolean resultEmpty() {
+        return getText().equals(zeroChar);
     }
 
-    public boolean resultEmptyMinus() {
-        return getText().equals(getString(R.string.minus) + getString(R.string.zero));
-    }
-
-    public boolean resultSign() {
-        List<String> a = Arrays.asList(getResources().getStringArray(R.array.signs));
-        return a.contains(getText());
+    private boolean resultMinusZero() {
+        return getText().equals(minusChar + zeroChar);
     }
 
 }
